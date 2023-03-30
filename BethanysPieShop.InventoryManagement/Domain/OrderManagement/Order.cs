@@ -22,5 +22,23 @@ namespace BethanysPieShop.InventoryManagement.Domain.OrderManagement
 
             OrderItems = new();
         }
+
+        public string ShowOrderDetails()
+        {
+            StringBuilder orderDetails = new();
+
+            orderDetails.AppendLine($"Order ID: {Id}");
+            orderDetails.AppendLine($"Order fulfillment date: {OrderFulfillmentDate.ToShortTimeString()}");
+
+            if (OrderItems != null)
+            {
+                foreach (OrderItem item in OrderItems)
+                {
+                    orderDetails.AppendLine($"{item.ProductId}. {item.ProductName}: {item.AmountOrdered}");
+                }
+            }
+
+            return orderDetails.ToString();
+        }
     }
 }
