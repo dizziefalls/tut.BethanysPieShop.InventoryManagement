@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BethanysPieShop.InventoryManagement.Domain.ProductManagement
 {
-    public partial class Product
+    public abstract partial class Product
     {
         public static int StockThreshold = 5;
 
@@ -24,7 +24,7 @@ namespace BethanysPieShop.InventoryManagement.Domain.ProductManagement
             }
         }
 
-        protected void Log(string message)
+        public void Log(string message)
         {
             Console.WriteLine(message);
         }

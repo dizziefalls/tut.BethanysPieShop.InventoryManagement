@@ -1,4 +1,5 @@
-﻿using BethanysPieShop.InventoryManagement.Domain.General;
+﻿using BethanysPieShop.InventoryManagement.Domain.Contracts;
+using BethanysPieShop.InventoryManagement.Domain.General;
 using BethanysPieShop.InventoryManagement.Domain.OrderManagement;
 using BethanysPieShop.InventoryManagement.Domain.ProductManagement;
 using System;
@@ -16,6 +17,9 @@ namespace BethanysPieShop.InventoryManagement
 
         internal static void InitializeStock()
         {
+            RegularProduct rp = new(7, "Pie candles", "Lorem Ipsum", new Price() { ItemPrice = 10, Currency = Currency.Euro }, UnitType.PerItem, 100);
+            double value = rp.ConvertProductPrice(Currency.Dollar);
+
             ProductRepository productRepository = new();
             inventory = productRepository.LoadProductsFromFile();
 
@@ -57,7 +61,7 @@ namespace BethanysPieShop.InventoryManagement
                     ShowSettingsMenu();
                     break;
                 case "4":
-                    //SaveAllData();
+                    SaveAllData();
                     break; 
                 case "0":
                     break;
@@ -104,7 +108,7 @@ namespace BethanysPieShop.InventoryManagement
                         ShowCreateNewProduct();
                         break;
                     case "3":
-                        //ShowCloneExistingProduct();
+                        ShowCloneExistingProduct();
                         break;
                     case "4":
                         ShowProductsLowOnStock();
@@ -248,6 +252,34 @@ namespace BethanysPieShop.InventoryManagement
             {
                 Console.WriteLine($"{i}. {name}");
                 i++;
+            }
+        }
+
+        private static void ShowCloneExistingProduct()
+        {
+            string? userSelection = string.Empty;
+            string? newId = string.Empty;
+
+            Console.Write("Enter the ID of product to clone: ");
+            string? selectedProductId = Console.ReadLine();
+
+            if (selectedProductId != null )
+            {
+                Product? selectedProduct = inventory.Where(p => p.Id == int.Parse(selectedProductId)).FirstOrDefault();
+
+                if (selectedProduct != null)
+                {
+                    Console.Write("Enter the ID of the cloned product: ");
+                    newId = Console.ReadLine();
+
+                    Product? p = selectedProduct.Clone() as Product;
+
+                    if (p != null)
+                    {
+                        p.Id = int.Parse(newId);
+                        inventory.Add(p);
+                    }
+                }
             }
         }
 
@@ -451,6 +483,26 @@ namespace BethanysPieShop.InventoryManagement
             }
 
             Console.ReadLine();
+        }
+
+        private static void SaveAllData()
+        {
+            ProductRepository productRepository = new();
+
+            List<ISaveable> saveables = new();
+
+            foreach (var item in inventory) 
+            {
+                if (item is ISaveable)
+                {
+                    saveables.Add(item as ISaveable);
+                }
+            }
+
+            productRepository.SaveToFile(saveables);
+
+            Console.ReadLine();
+            ShowMainMenu();
         }
     }
 }

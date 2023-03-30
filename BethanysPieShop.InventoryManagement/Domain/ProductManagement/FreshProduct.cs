@@ -1,4 +1,5 @@
-﻿using BethanysPieShop.InventoryManagement.Domain.General;
+﻿using BethanysPieShop.InventoryManagement.Domain.Contracts;
+using BethanysPieShop.InventoryManagement.Domain.General;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BethanysPieShop.InventoryManagement.Domain.ProductManagement
 {
-    public class FreshProduct : Product
+    public class FreshProduct : Product, ISaveable
     {
         public DateTime ExpiryDateTime { get; set; }
         public string? StorageInstructions { get; set; }
@@ -36,6 +37,20 @@ namespace BethanysPieShop.InventoryManagement.Domain.ProductManagement
             sb.Append("Expiry date: " + ExpiryDateTime.ToShortDateString());
 
             return sb.ToString();
+        }
+
+        public string ConvertToStringForSaving()
+        {
+            return $"{Id};{Name};{Description};{maxItemsInStock};{Price.ItemPrice};{(int)Price.Currency};{(int)UnitType};2;";
+        }
+
+        public override object Clone()
+        {
+            return new FreshProduct(0, this.Name, this.Description, new Price()
+            {
+                ItemPrice = this.Price.ItemPrice,
+                Currency = this.Price.Currency
+            }, this.UnitType, this.maxItemsInStock);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BethanysPieShop.InventoryManagement.Domain.General;
+﻿using BethanysPieShop.InventoryManagement.Domain.Contracts;
+using BethanysPieShop.InventoryManagement.Domain.General;
 using BethanysPieShop.InventoryManagement.Domain.ProductManagement;
 using System;
 using System.Collections.Generic;
@@ -122,6 +123,24 @@ namespace BethanysPieShop.InventoryManagement
             }
 
             return products;
+        }
+
+        public void SaveToFile(List<ISaveable> saveables)
+        {
+            StringBuilder sb = new();
+            string path = $"{directory}{productsFileName}";
+
+            foreach (var item in saveables)
+            {
+                sb.Append(item.ConvertToStringForSaving());
+                sb.Append(Environment.NewLine);
+            }
+
+            File.WriteAllText(path, sb.ToString());
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Saved items successfully");
+            Console.ResetColor();
         }
     }
 }

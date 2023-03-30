@@ -17,5 +17,6 @@ namespace BethanysPieShop.InventoryManagement.Domain.ProductManagement
         {
             //UseBoxedProduct(3); -sample
         }
+
     }
 }
