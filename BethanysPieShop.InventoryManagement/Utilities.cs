@@ -16,12 +16,8 @@ namespace BethanysPieShop.InventoryManagement
 
         internal static void InitializeStock()
         {
-            Product p1 = new(1, "Sugar", "Lorem ipsum", new Price() { ItemPrice = 10, Currency = Currency.Euro }, UnitType.PerKg, 100);
-            Product p2 = new(2, "Cake decorations", "Lorem ipsum", new Price() { ItemPrice = 8, Currency = Currency.Euro }, UnitType.PerItem, 20);
-            Product p3 = new(3, "Strawberry", "Lorem ipsum", new Price() { ItemPrice = 3, Currency = Currency.Euro }, UnitType.PerBox, 10);
-            inventory.Add(p1);
-            inventory.Add(p2);
-            inventory.Add(p3);
+            ProductRepository productRepository = new();
+            inventory = productRepository.LoadProductsFromFile();
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Loaded {inventory.Count} products!");

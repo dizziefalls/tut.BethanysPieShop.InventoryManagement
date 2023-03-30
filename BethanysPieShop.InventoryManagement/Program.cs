@@ -10,6 +10,8 @@ Console.WriteLine("Application shutting down...");
 
 Console.ReadLine();
 
+//FIX: double readLine hang
+
 #region Layout
 
 static void PrintWelcome()
