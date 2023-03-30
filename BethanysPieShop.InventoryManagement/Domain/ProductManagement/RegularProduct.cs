@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace BethanysPieShop.InventoryManagement.Domain.ProductManagement
 {
-    public class BulkProduct : Product
+    public class RegularProduct : Product
     {
-        public BulkProduct(int id, string name, string? description, Price price, int maxAmountInStock) : base(id, name, description, price, UnitType.PerKg, maxAmountInStock)
+        public RegularProduct(int id, string name, string? description, Price price, UnitType unitType, int maxAmountInStock) : base(id, name, description, price, unitType, maxAmountInStock)
         {
         }
 
         public override void IncreaseStock()
         {
-            AmountInStock++;
+            AmountInStock++;   
         }
     }
 }

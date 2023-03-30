@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BethanysPieShop.InventoryManagement.Domain.ProductManagement
 {
-    public partial class Product
+    public abstract partial class Product
     {
         private int id;
         private string name = string.Empty;
@@ -82,10 +82,7 @@ namespace BethanysPieShop.InventoryManagement.Domain.ProductManagement
             }
         }
 
-        public virtual void IncreaseStock()
-        {
-            AmountInStock++;
-        }
+        public abstract void IncreaseStock();
 
         public virtual void IncreaseStock(int amount)
         {

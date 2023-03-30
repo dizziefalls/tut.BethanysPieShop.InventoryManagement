@@ -16,6 +16,11 @@ namespace BethanysPieShop.InventoryManagement.Domain.ProductManagement
         {
         }
 
+        public override void IncreaseStock()
+        {
+            AmountInStock++;
+        }
+
         public override string DisplayDetailsFull()
         {
             StringBuilder sb = new();
